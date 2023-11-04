@@ -10,7 +10,10 @@ def clientSendData(client:socket.socket, qDict, address):
 
     while True:
         data = q.get()
-        client.send(bytes(data, "utf-8"))
+        try:
+            client.send(bytes(data, "utf-8"))
+        except:
+            pass
 
 def clientHandler(client:socket.socket, address, qDict):
     print(f"Connection Established - {address}")

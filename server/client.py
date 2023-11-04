@@ -17,9 +17,10 @@ if __name__ == "__main__":
     thread = Thread(target=recv, args=(server,))
     thread.start()
 
-    string = "haskklfj"
-    sleep(20)
-    server.send(bytes(string, "utf-8"))
+    while True:
+        string = input("")
+
+        server.send(bytes(string, "utf-8"))
 
 
 
