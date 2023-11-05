@@ -2,11 +2,14 @@ import socket
 from time import sleep
 from threading import Thread
 
-def recv(server:socket.socket):
+
+def recv(server: socket.socket):
     while True:
         buffer = server.recv(1024)
         buffer = buffer.decode("utf-8")
         print(buffer)
+
+
 if __name__ == "__main__":
     name = input("dein name:")
     ip = "127.0.0.1"
@@ -22,6 +25,5 @@ if __name__ == "__main__":
         string = name + ": " + input("")
 
         server.send(bytes(string, "utf-8"))
-
 
     ##husten
