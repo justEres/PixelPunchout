@@ -28,7 +28,7 @@ def run():
 
 
         player0.render(screen)
-        UI.render(screen, clock)
+        UI.render(screen, clock,player0)
         pygame.display.flip()  # update screen
 
 

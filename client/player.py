@@ -7,7 +7,8 @@ class Player:
         self.image = pygame.surface.Surface(self.rect.size)
         self.id = id
         self.scale = 5
-        self.speed = 10
+        self.speed = 5
+
         self.loadImage()
         self.getRect()
         self.direction = pygame.Vector2(0,0)
