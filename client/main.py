@@ -2,6 +2,7 @@ import pygame
 import settingsManager
 import UI
 import colors
+import player
 
 
 def run():
@@ -10,6 +11,8 @@ def run():
     running = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((settings['WINDOWWIDTH'], settings['WINDOWHEIGHT']))
+    player0 = player.Player(0)
+
 
     # GAMELOOP:
     while running:
@@ -18,7 +21,13 @@ def run():
             if event.type == pygame.QUIT:
                 running = False
 
+            player0.movement(event)
+        player0.update()
+
         screen.fill(colors.WHITE)
+
+
+        player0.render(screen)
         UI.render(screen, clock)
         pygame.display.flip()  # update screen
 
