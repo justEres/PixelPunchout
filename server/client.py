@@ -8,6 +8,7 @@ def recv(server:socket.socket):
         buffer = buffer.decode("utf-8")
         print(buffer)
 if __name__ == "__main__":
+    name = input("dein name:")
     ip = "127.0.0.1"
     port = 1234
 
@@ -18,7 +19,7 @@ if __name__ == "__main__":
     thread.start()
 
     while True:
-        string = input("")
+        string = name + ": " + input("")
 
         server.send(bytes(string, "utf-8"))
 
