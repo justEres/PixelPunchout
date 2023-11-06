@@ -7,7 +7,7 @@ from queue import Queue
 
 def debugpackage():
     data = {
-        'id': 'PLAYERPOSi',
+        'id': 'PLAYERPOS',
         'args': [120, 134]
     }
     data = json.dumps(data)
@@ -31,12 +31,12 @@ def clientHandler(client: socket.socket, address, qDict):
     thread = Thread(target=clientSendData, args=(client, qDict, address))
     thread.start()
     while True:
-        try:
-            string = client.recv(1024)
-        except:
-            break
-        if not string: break
+
+        string = client.recv(1024)
         string = string.decode("utf-8")
+        if not string: break
+
+        print(string)
         for i in qDict:
             if i == address:
                 continue

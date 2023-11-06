@@ -4,6 +4,8 @@ from threading import Thread
 import json
 
 
+
+
 def executor(package: str):
     package = json.loads(package)
     if package["id"] == "PLAYERPOS":
@@ -20,7 +22,7 @@ def reciever(server: socket.socket):
         executor(buffer)
 
 
-if __name__ == "__main__":
+def init():
     ip = "127.0.0.1"
     port = 1234
 
@@ -29,6 +31,7 @@ if __name__ == "__main__":
 
     thread = Thread(target=reciever, args=(server,))
     thread.start()
+    return server
     """
     while True:
         data = ""
@@ -37,7 +40,14 @@ if __name__ == "__main__":
     
     
     """
+def packageSender(id, args, server):
+    data = {
+        'id': id,
+        'args': [args[0], args[1]]
+    }
+    data = json.dumps(data)
 
+    server.send(bytes(data, "utf-8"))
 
 
 

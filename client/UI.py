@@ -1,7 +1,7 @@
 import pygame
 from settingsManager import getSettings
 import colors
-getSettings()
+
 pygame.font.init()
 def render(screen:pygame.Surface,clock:pygame.time.Clock,player):
     settings = getSettings()

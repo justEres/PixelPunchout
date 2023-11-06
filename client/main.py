@@ -3,11 +3,12 @@ import settingsManager
 import UI
 import colors
 import player
-
+import networking
 
 def run():
     pygame.get_init()
     settings = settingsManager.getSettings()
+    server = networking.init()
     running = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((settings['WINDOWWIDTH'], settings['WINDOWHEIGHT']))
@@ -22,7 +23,7 @@ def run():
                 running = False
 
             player0.movement(event)
-        player0.update()
+        player0.update(server)
 
         screen.fill(colors.WHITE)
 

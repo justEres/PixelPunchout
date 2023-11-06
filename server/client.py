@@ -12,8 +12,8 @@ def recv(server: socket.socket):
 
 if __name__ == "__main__":
     name = input("dein name:")
-    ip = "127.0.0.1"
-    port = 1234
+    ip = "6.tcp.eu.ngrok.io"
+    port = 18636
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
@@ -23,7 +23,8 @@ if __name__ == "__main__":
 
     while True:
         string = name + ": " + input("")
-
-        server.send(bytes(string, "utf-8"))
+        # string = "haskklfj"
+        # sleep(20)
+        server.send(bytes(f"Theo: {string}", 'utf-8'))
 
     ##husten

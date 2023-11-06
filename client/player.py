@@ -1,5 +1,5 @@
 import pygame
-
+import networking
 
 class Player:
     def __init__(self, id):
@@ -13,9 +13,11 @@ class Player:
         self.getRect()
         self.direction = pygame.Vector2(0,0)
 
-    def update(self):
+    def update(self, server):
         newPosition = tuple(map(sum, zip(self.rect.topleft, self.direction * self.speed)))
         self.rect.update(newPosition,self.rect.size)
+        args = (newPosition[0],newPosition[1])
+        networking.packageSender("PLAYERPOS", args, server)
 
 
 
