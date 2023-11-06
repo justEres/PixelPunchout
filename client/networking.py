@@ -40,9 +40,10 @@ def init():
     
     
     """
-def packageSender(id, args, server):
+def packageSender(playerID, type, args, server):
     data = {
-        'id': id,
+        'id': playerID,
+        'type': type,
         'args': [args[0], args[1]]
     }
     data = json.dumps(data)

@@ -20,7 +20,7 @@ class Player:
         self.rect.update(newPosition,self.rect.size)
         if not (self.rect == self.lastRect):
             args = (newPosition[0],newPosition[1])
-            networking.packageSender("PLAYERPOS", args, server)
+            networking.packageSender(id ,"PLAYERPOS", args, server)
 
 
 

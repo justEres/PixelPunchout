@@ -50,6 +50,16 @@ def clientHandler(client: socket.socket, address, qDict):
                 qDict[i].put(string)
 
     print("Client Disconnected")
+def sendPlayerSetUpInfo(client:socket.socket, qDict):
+
+    PlayerId = qDict.len()
+    setUpInfo = {
+        "id": PlayerId,
+        "type": "SETUPINFO",
+        "args": []
+    }
+    setUpInfo = json.dumps(setUpInfo)
+    client.send(bytes(setUpInfo, "utf-8"))
 
 
 if __name__ == "__main__":
@@ -66,6 +76,8 @@ if __name__ == "__main__":
     while True:
         client, address = server.accept()
         address = f"{address[0]}:{address[1]}"
+        sendPlayerSetUpInfo(client, qDict)
+
         qDict[address] = Queue()
 
         thread = Thread(target=clientHandler, args=(client, address, qDict))
