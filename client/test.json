@@ -1,4 +1,5 @@
 {
-  "id": "PLAYERPOS",
+  "id": 0,
+  "type": "PLAYERPOS",
   "args": [120,134]
 }

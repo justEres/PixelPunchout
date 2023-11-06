@@ -22,7 +22,8 @@ class Player:
             args = (newPosition[0],newPosition[1])
             networking.packageSender(id ,"PLAYERPOS", args, server)
 
-
+    def setPos(self,pos: pygame.Vector2):
+        self.rect.update(pos, self.rect.size)
 
     def movement(self,event:pygame.event.Event):
         if event.type == pygame.KEYDOWN:
