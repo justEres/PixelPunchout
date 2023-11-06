@@ -16,14 +16,19 @@ def debugpackage():
 
 def clientSendData(client: socket.socket, qDict, address):
     q = qDict[address]
-    client.send(bytes(debugpackage(), "utf-8"))
+
+    #client.send(bytes(debugpackage(), "utf-8"))
     while True:
+
         data = q.get()
+
         try:
-            client.send(bytes(data, "utf-8"))
-        except:
             pass
 
+            client.send(bytes(data, "utf-8"))
+        except:
+
+            pass
 
 def clientHandler(client: socket.socket, address, qDict):
     print(f"Connection Established - {address}")
@@ -36,12 +41,14 @@ def clientHandler(client: socket.socket, address, qDict):
         string = string.decode("utf-8")
         if not string: break
 
-        print(string)
+        #print(string)
         for i in qDict:
             if i == address:
                 continue
+
             else:
                 qDict[i].put(string)
+
     print("Client Disconnected")
 
 
@@ -63,3 +70,5 @@ if __name__ == "__main__":
 
         thread = Thread(target=clientHandler, args=(client, address, qDict))
         thread.start()
+
+
