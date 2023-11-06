@@ -1,13 +1,22 @@
 import queue
 import socket
 from threading import Thread
-
+import json
 from queue import Queue
 
 
-def clientSendData(client:socket.socket, qDict, address):
-    q = qDict[address]
+def debugpackage():
+    data = {
+        'id': 'PLAYERPOSi',
+        'args': [120, 134]
+    }
+    data = json.dumps(data)
+    return data
 
+
+def clientSendData(client: socket.socket, qDict, address):
+    q = qDict[address]
+    client.send(bytes(debugpackage(), "utf-8"))
     while True:
         data = q.get()
         try:
@@ -15,21 +24,26 @@ def clientSendData(client:socket.socket, qDict, address):
         except:
             pass
 
-def clientHandler(client:socket.socket, address, qDict):
+
+def clientHandler(client: socket.socket, address, qDict):
     print(f"Connection Established - {address}")
     q = qDict[address]
     thread = Thread(target=clientSendData, args=(client, qDict, address))
     thread.start()
     while True:
-        string = client.recv(1024)
+        try:
+            string = client.recv(1024)
+        except:
+            break
         if not string: break
         string = string.decode("utf-8")
         for i in qDict:
             if i == address:
                 continue
             else:
-               qDict[i].put(string)
+                qDict[i].put(string)
     print("Client Disconnected")
+
 
 if __name__ == "__main__":
     ip = "127.0.0.1"
@@ -47,7 +61,5 @@ if __name__ == "__main__":
         address = f"{address[0]}:{address[1]}"
         qDict[address] = Queue()
 
-        thread = Thread(target=clientHandler, args = (client, address, qDict))
+        thread = Thread(target=clientHandler, args=(client, address, qDict))
         thread.start()
-
-
