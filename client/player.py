@@ -4,6 +4,7 @@ import networking
 class Player:
     def __init__(self, id):
         self.rect = pygame.rect.Rect(100, 100, 16, 16)
+        self.lastRect = self.rect.copy()
         self.image = pygame.surface.Surface(self.rect.size)
         self.id = id
         self.scale = 5
@@ -15,9 +16,11 @@ class Player:
 
     def update(self, server):
         newPosition = tuple(map(sum, zip(self.rect.topleft, self.direction * self.speed)))
+        self.lastRect = self.rect.copy()
         self.rect.update(newPosition,self.rect.size)
-        args = (newPosition[0],newPosition[1])
-        networking.packageSender("PLAYERPOS", args, server)
+        if not (self.rect == self.lastRect):
+            args = (newPosition[0],newPosition[1])
+            networking.packageSender("PLAYERPOS", args, server)
 
 
 

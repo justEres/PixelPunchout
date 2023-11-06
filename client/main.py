@@ -12,7 +12,10 @@ def run():
     running = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((settings['WINDOWWIDTH'], settings['WINDOWHEIGHT']))
-    player0 = player.Player(0)
+
+    players = []
+    players.append(player.Player(0))
+
 
 
     # GAMELOOP:
@@ -22,14 +25,16 @@ def run():
             if event.type == pygame.QUIT:
                 running = False
 
-            player0.movement(event)
-        player0.update(server)
+            players[0].movement(event)
+        players[0].update(server)
 
         screen.fill(colors.WHITE)
 
 
-        player0.render(screen)
-        UI.render(screen, clock,player0)
+        for p in players:
+            p.render(screen)
+
+        UI.render(screen, clock,players[0])
         pygame.display.flip()  # update screen
 
 
