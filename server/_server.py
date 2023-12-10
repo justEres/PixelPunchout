@@ -21,7 +21,6 @@ def clientSendData(client: socket.socket, qDict, address):
     while True:
 
         data = q.get()
-
         try:
             pass
 
@@ -33,6 +32,7 @@ def clientSendData(client: socket.socket, qDict, address):
 def clientHandler(client: socket.socket, address, qDict):
     print(f"Connection Established - {address}")
     q = qDict[address]
+
     thread = Thread(target=clientSendData, args=(client, qDict, address))
     thread.start()
     while True:
@@ -52,7 +52,7 @@ def clientHandler(client: socket.socket, address, qDict):
     print("Client Disconnected")
 def sendPlayerSetUpInfo(client:socket.socket, qDict):
 
-    PlayerId = qDict.len()
+    PlayerId = len(qDict)
     setUpInfo = {
         "id": PlayerId,
         "type": "SETUPINFO",
@@ -76,9 +76,10 @@ if __name__ == "__main__":
     while True:
         client, address = server.accept()
         address = f"{address[0]}:{address[1]}"
-        sendPlayerSetUpInfo(client, qDict)
+
 
         qDict[address] = Queue()
+        sendPlayerSetUpInfo(client, qDict)
 
         thread = Thread(target=clientHandler, args=(client, address, qDict))
         thread.start()

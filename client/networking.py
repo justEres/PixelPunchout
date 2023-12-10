@@ -37,7 +37,8 @@ def init(newPlayerFunc,setPlayerPosFunc):
     ## Connection start handshake
     setupinfo = server.recv(1024)
     setupinfo = setupinfo.decode("utf-8")
-    playerid = executor(setupinfo)
+    print(setupinfo)
+    playerid = executor(setupinfo,newPlayerFunc,setPlayerPosFunc)
     packageSender(playerid,"NEWPLAYER",[],server)
 
 
@@ -49,7 +50,7 @@ def packageSender(playerID, type, args, server):
     data = {
         'id': playerID,
         'type': type,
-        'args': [args[0], args[1]]
+        'args': args
     }
     data = json.dumps(data)
 

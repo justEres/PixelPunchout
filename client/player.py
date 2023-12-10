@@ -20,7 +20,7 @@ class Player:
         self.rect.update(newPosition,self.rect.size)
         if not (self.rect == self.lastRect):
             args = (newPosition[0],newPosition[1])
-            networking.packageSender(id ,"PLAYERPOS", args, server)
+            networking.packageSender(self.id ,"PLAYERPOS", args, server)
 
     def setPos(self,pos: pygame.Vector2):
         self.rect.update(pos, self.rect.size)

@@ -9,7 +9,7 @@ import inventory
 def run():
     pygame.get_init()
     settings = settingsManager.getSettings()
-    #server = networking.init(newPlayerFunc, setPlayerPosFunc())
+    server = networking.init(newPlayerFunc, setPlayerPosFunc)
     running = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((settings['WINDOWWIDTH'], settings['WINDOWHEIGHT']))
@@ -30,7 +30,7 @@ def run():
                     print(inv.displaying)
 
             players[0].movement(event)
-        #players[0].update(server)
+        players[0].update(server)
 
         screen.fill(colors.WHITE)
 
