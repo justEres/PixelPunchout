@@ -47,7 +47,7 @@ def clientHandler(client: socket.socket, address, qDict):
         string = string.decode("utf-8")
         if not string: break
 
-        # Die Daten die gesendet wurden werden auf die einzelnen Queues verteilt
+        # Die Daten die gesendet werden auf die einzelnen Queues verteilt
         # Die eigene Queue jedoch nicht
         for i in qDict:
             if i == address:
