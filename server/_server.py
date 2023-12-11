@@ -15,6 +15,7 @@ def debugpackage():
 
 
 def clientSendData(client: socket.socket, qDict, address):
+    #Diese Funktion sendet dem Client alles was auf seiner eigenen Queue liegt.
     q = qDict[address]
 
     #client.send(bytes(debugpackage(), "utf-8"))
@@ -29,19 +30,25 @@ def clientSendData(client: socket.socket, qDict, address):
 
             pass
 
+
+# Baut die Verbindung mit dem Client auf.
 def clientHandler(client: socket.socket, address, qDict):
     print(f"Connection Established - {address}")
     q = qDict[address]
 
+    # Startet für den jeweiligen Client einen Thread zum Senden von Daten.
+    # Der seine Addresse und Queue number übermittelt bekommt
     thread = Thread(target=clientSendData, args=(client, qDict, address))
     thread.start()
     while True:
 
+        # Alles was der Client sendet kommt hier an.
         string = client.recv(1024)
         string = string.decode("utf-8")
         if not string: break
 
-        #print(string)
+        # Die Daten die gesendet wurden werden auf die einzelnen Queues verteilt
+        # Die eigene Queue jedoch nicht
         for i in qDict:
             if i == address:
                 continue
@@ -50,8 +57,9 @@ def clientHandler(client: socket.socket, address, qDict):
                 qDict[i].put(string)
 
     print("Client Disconnected")
-def sendPlayerSetUpInfo(client:socket.socket, qDict):
 
+# Diese Funktion sendet die SETUP Info's
+def sendPlayerSetUpInfo(client:socket.socket, qDict):
     PlayerId = len(qDict)
     setUpInfo = {
         "id": PlayerId,
@@ -69,6 +77,7 @@ if __name__ == "__main__":
     q = Queue()
     qDict = {}
 
+    # Setzt den Server auf
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
     server.listen(5)
@@ -81,6 +90,7 @@ if __name__ == "__main__":
         qDict[address] = Queue()
         sendPlayerSetUpInfo(client, qDict)
 
+        #Für jeden Client wird ein eigener Handler Thread erstellt.
         thread = Thread(target=clientHandler, args=(client, address, qDict))
         thread.start()
 
