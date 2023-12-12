@@ -6,10 +6,17 @@ import player
 import networking
 import inventory
 
+################DEBUG################
+online = False
+################DEBUG################
+
 def run():
     pygame.get_init()
     settings = settingsManager.getSettings()
-    server = networking.init(newPlayerFunc, setPlayerPosFunc)
+    if online:
+        server = networking.init(newPlayerFunc, setPlayerPosFunc)
+    else:
+        server = "offline"
     running = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((settings['WINDOWWIDTH'], settings['WINDOWHEIGHT']))
@@ -33,7 +40,6 @@ def run():
         players[0].update(server)
 
         screen.fill(colors.WHITE)
-
 
         inv.draw(screen)
 

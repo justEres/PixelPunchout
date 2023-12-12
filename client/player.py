@@ -1,5 +1,6 @@
 import pygame
 import networking
+import controller
 
 class Player:
     def __init__(self, id):
@@ -15,17 +16,29 @@ class Player:
         self.direction = pygame.Vector2(0,0)
 
     def update(self, server):
-        newPosition = tuple(map(sum, zip(self.rect.topleft, self.direction * self.speed)))
+        if not self.direction == pygame.Vector2(0,0):
+            direction = self.direction.normalize()
+        else:
+            direction = pygame.Vector2(0,0)
+
+        newPosition = tuple(map(sum, zip(self.rect.topleft, direction * self.speed)))
+
         self.lastRect = self.rect.copy()
+
         self.rect.update(newPosition,self.rect.size)
         if not (self.rect == self.lastRect):
             args = (newPosition[0],newPosition[1])
+            if server == "offline":
+                return
             networking.packageSender(self.id ,"PLAYERPOS", args, server)
+
 
     def setPos(self,pos: pygame.Vector2):
         self.rect.update(pos, self.rect.size)
 
     def movement(self,event:pygame.event.Event):
+
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 self.direction.y -= 1
@@ -44,6 +57,11 @@ class Player:
                 self.direction.x += 1
             if event.key == pygame.K_d:
                 self.direction.x -= 1
+        if controller.jcount > 0:
+            direction = controller.getVec(event)
+            direction += self.nearly00(direction)
+            self.direction = direction.normalize()
+
 
     def render(self, screen: pygame.surface.Surface):
         screen.blit(self.image, self.rect.topleft)
@@ -62,3 +80,14 @@ class Player:
 
     def getRect(self):
         self.rect = self.image.get_rect()
+
+    def nearly00(self, vec:pygame.Vector2):
+        if -0.3 <= vec.x <= 0.3:
+            x = 0
+        else:
+            x = vec.x
+        if -0.3 <= vec.y <= 0.3:
+            y = 0
+        else:
+            y = vec.y
+        return pygame.Vector2(x,y)
