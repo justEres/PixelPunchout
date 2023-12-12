@@ -41,11 +41,12 @@ def run():
 
         screen.fill(colors.WHITE)
 
-        inv.draw(screen)
+
 
         for p in players:
             p.render(screen)
 
+        inv.draw(screen)
         UI.render(screen, clock, players[0])
         pygame.display.flip()  # update screen
 

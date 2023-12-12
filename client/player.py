@@ -70,9 +70,14 @@ class Player:
         sourceImages = [
             "sprites/redPlayer.png",
             "sprites/bluePlayer.png",
-            "sprites/greenPlayer.png"
+            "sprites/greenPlayer.png",
+            "sprites/greenPlayer.png",
+            "sprites/magentaPlayer.png",
+            "sprites/orangePlayer.png"
+            ,"sprites/greyPlayer.png"
+
         ]
-        return sourceImages[self.id]
+        return sourceImages[self.id - 1]
 
     def loadImage(self):
         self.image = pygame.image.load(self.getSourceImage())
